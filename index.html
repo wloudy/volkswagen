@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volkswagen — Главная</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <style>
+:root {
+  --vw-blue-dark: #001e50;
+  --vw-blue: #0040c5;
+  --vw-blue-light: #a8d4f0;
+  --vw-blue-pale: #d4e8f7;
+  --vw-orange: #f28d35;
+  --vw-yellow: #ffd200;
+  --vw-red: #c41230;
+  --vw-gray: #6b6b6b;
+  --vw-gray-light: #e8e8e8;
+  --font-main: "Segoe UI", Arial, Helvetica, sans-serif;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-main); font-size: 14px; color: #333; background: #fff; line-height: 1.5; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; }
+
+.page-view { display: none; }
+.page-view.is-active { display: block; }
+
+.top-bar { background: #fff; border-bottom: 1px solid var(--vw-gray-light); font-size: 12px; color: var(--vw-gray); }
+.top-bar__inner { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 8px 20px; max-width: 1280px; margin: 0 auto; }
+.top-bar__links { display: flex; gap: 16px; }
+.top-bar__links a:hover { color: var(--vw-blue); }
+.top-bar__search { display: flex; align-items: stretch; }
+.top-bar__search input { border: 1px solid #ccc; padding: 4px 10px; width: 140px; font-size: 12px; }
+.top-bar__search button { background: var(--vw-blue); border: none; color: #fff; padding: 0 12px; cursor: pointer; transition: background var(--transition); }
+.top-bar__search button:hover { background: var(--vw-blue-dark); }
+
+.site-header { background: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); }
+.header-main { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; max-width: 1280px; margin: 0 auto; gap: 16px; }
+.logo { flex-shrink: 0; }
+.logo img { height: 48px; width: auto; }
+
+.main-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; }
+.nav-item { position: relative; }
+.nav-item > a { display: block; padding: 12px 14px; font-size: 13px; font-weight: 500; color: #333; transition: color var(--transition); }
+.nav-item > a:hover, .nav-item.is-open > a { color: var(--vw-blue); }
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: #fff; border: 1px solid var(--vw-gray-light); box-shadow: 0 8px 24px rgba(0, 30, 80, 0.12); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity var(--transition), transform var(--transition), visibility var(--transition); z-index: 100; }
+.nav-item:hover .nav-dropdown, .nav-item.is-open .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { display: block; padding: 10px 16px; font-size: 13px; border-bottom: 1px solid #f5f5f5; transition: background var(--transition), padding-left var(--transition); }
+.nav-dropdown a:last-child { border-bottom: none; }
+.nav-dropdown a:hover { background: var(--vw-blue-pale); padding-left: 20px; color: var(--vw-blue-dark); }
+.header-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 2px solid var(--vw-blue); color: var(--vw-blue); font-size: 13px; font-weight: 600; border-radius: 2px; transition: background var(--transition), color var(--transition); }
+.btn-outline:hover, .btn-outline.is-active { background: var(--vw-blue); color: #fff; }
+.btn-outline svg { width: 18px; height: 18px; fill: currentColor; }
+
+.hero { position: relative; overflow: hidden; }
+.hero .swiper { width: 100%; height: 420px; }
+.hero-slide { display: grid; grid-template-columns: 1fr 1fr; height: 100%; min-height: 420px; }
+.hero-slide__visual { position: relative; overflow: hidden; background: var(--vw-blue-dark); }
+.hero-slide__visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease-out; }
+.hero-slide.swiper-slide-active .hero-slide__visual img { transform: scale(1.08); }
+.hero-slide__content { position: relative; background: linear-gradient(135deg, var(--vw-blue-pale) 0%, var(--vw-blue-light) 100%); padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; }
+.hero-slide__content h2 { font-size: 28px; font-weight: 700; color: #111; line-height: 1.25; margin-bottom: 20px; max-width: 420px; }
+.hero-slide__illus { position: absolute; right: 20px; bottom: 40px; width: 45%; max-height: 200px; object-fit: contain; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.hero-badge { position: absolute; bottom: 0; right: 0; background: var(--vw-yellow); color: #111; font-weight: 700; font-size: 14px; padding: 12px 28px; transform: skewX(-8deg); margin: 0 20px 20px 0; }
+.hero-badge span { display: block; transform: skewX(8deg); }
+.btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--vw-orange); color: #fff; padding: 10px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; width: fit-content; transition: transform var(--transition), box-shadow var(--transition); }
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(242, 141, 53, 0.4); }
+.hero .swiper-button-prev, .hero .swiper-button-next { color: #333; background: rgba(255, 255, 255, 0.9); width: 36px; height: 48px; margin-top: -24px; }
+.hero .swiper-button-prev::after, .hero .swiper-button-next::after { font-size: 18px; font-weight: 700; }
+.hero .swiper-pagination-bullet-active { background: var(--vw-blue); }
+
+.features { position: relative; z-index: 10; margin-top: -40px; padding-bottom: 40px; }
+.features__grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.feature-tile { position: relative; height: 140px; overflow: hidden; cursor: pointer; display: flex; align-items: flex-end; padding: 16px; color: #fff; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+.feature-tile__bg { position: absolute; inset: 0; z-index: 0; }
+.feature-tile__bg img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition); }
+.feature-tile:hover .feature-tile__bg img { transform: scale(1.12); }
+.feature-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 60%); z-index: 1; }
+.feature-tile--solid { background: var(--vw-red); }
+.feature-tile--solid::after { display: none; }
+.feature-tile--light { background: #fff; color: #333; text-shadow: none; border: 1px solid var(--vw-gray-light); }
+.feature-tile--light::after { display: none; }
+.feature-tile__icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%); font-size: 36px; z-index: 2; }
+.feature-tile__title { position: relative; z-index: 2; font-size: 13px; font-weight: 600; line-height: 1.3; }
+
+.banners { padding: 20px 0 60px; }
+.banners__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.banner-card { position: relative; height: 220px; overflow: hidden; border-radius: 2px; }
+.banner-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.banner-card:hover .banner-card__img { transform: scale(1.08); }
+.banner-card__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 30, 80, 0.75) 0%, transparent 50%); display: flex; align-items: flex-end; padding: 20px; }
+.banner-card__title { color: #fff; font-size: 20px; font-weight: 700; }
+.banner-card--service { background: var(--vw-blue-pale); }
+
+.page-hero { background: var(--vw-blue-dark); color: #fff; padding: 48px 20px; }
+.page-hero h1 { font-size: 32px; font-weight: 700; max-width: 1280px; margin: 0 auto; }
+.page-hero p { max-width: 1280px; margin: 12px auto 0; opacity: 0.9; font-size: 16px; }
+.page-content { max-width: 1280px; margin: 0 auto; padding: 40px 20px 80px; }
+.page-content h2 { margin-bottom: 12px; color: var(--vw-blue-dark); }
+
+.dealers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.dealer-card { border: 1px solid var(--vw-gray-light); border-radius: 4px; overflow: hidden; transition: box-shadow var(--transition), transform var(--transition); }
+.dealer-card:hover { box-shadow: 0 12px 32px rgba(0, 30, 80, 0.12); transform: translateY(-4px); }
+.dealer-card__img-wrap { height: 160px; overflow: hidden; }
+.dealer-card__img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition); }
+.dealer-card:hover .dealer-card__img-wrap img { transform: scale(1.06); }
+.dealer-card__body { padding: 20px; }
+.dealer-card h3 { font-size: 18px; color: var(--vw-blue-dark); margin-bottom: 8px; }
+.dealer-card p { font-size: 13px; color: var(--vw-gray); margin-bottom: 4px; }
+.dealer-card a.phone { color: var(--vw-blue); font-weight: 600; }
+
+.form-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.form-section__image { border-radius: 4px; overflow: hidden; }
+.form-section__image img { width: 100%; height: 400px; object-fit: cover; animation: kenburns 12s ease-in-out infinite alternate; }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.06); } }
+.test-form { display: flex; flex-direction: column; gap: 16px; }
+.test-form label { font-size: 13px; font-weight: 600; }
+.test-form input, .test-form select, .test-form textarea { width: 100%; padding: 12px 14px; border: 1px solid #ccc; font-family: inherit; font-size: 14px; border-radius: 2px; }
+.test-form input:focus, .test-form select:focus, .test-form textarea:focus { outline: none; border-color: var(--vw-blue); }
+.test-form textarea { min-height: 100px; resize: vertical; }
+.btn-primary { background: var(--vw-blue); color: #fff; border: none; padding: 14px 28px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 2px; }
+.btn-primary:hover { background: var(--vw-blue-dark); }
+.form-success { display: none; padding: 16px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; margin-bottom: 16px; }
+.form-success.is-visible { display: block; }
+
+.site-footer { background: var(--vw-blue-dark); color: rgba(255, 255, 255, 0.8); padding: 32px 20px; font-size: 12px; text-align: center; }
+.site-footer a { color: #fff; text-decoration: underline; }
+
+.nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; }
+
+@media (max-width: 1024px) {
+  .main-nav { display: none; }
+  .hero-slide { grid-template-columns: 1fr; }
+  .features__grid { grid-template-columns: repeat(2, 1fr); }
+  .banners__grid { grid-template-columns: 1fr; }
+  .form-section { grid-template-columns: 1fr; }
+  .nav-toggle { display: block; }
+  .main-nav.is-mobile-open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 16px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
+  .main-nav.is-mobile-open .nav-dropdown { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: none; padding-left: 16px; display: none; }
+  .main-nav.is-mobile-open .nav-item.is-open .nav-dropdown { display: block; }
+}
+@media (max-width: 600px) {
+  .features__grid { grid-template-columns: 1fr; }
+  .header-actions .btn-outline span { display: none; }
+  .hero .swiper { height: auto; min-height: 480px; }
+}
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar__inner">
+      <nav class="top-bar__links" aria-label="Служебная навигация">
+        <a href="#home" data-page="home">На главную</a>
+        <a href="#contacts">Контакты</a>
+        <a href="#dealers" data-page="dealers">Дилеры</a>
+        <a href="#sitemap">Карта сайта</a>
+      </nav>
+      <form class="top-bar__search" role="search">
+        <input type="search" placeholder="Поиск" aria-label="Поиск">
+        <button type="submit" aria-label="Найти">&#128269;</button>
+      </form>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="header-main">
+      <a href="#home" class="logo" data-page="home" aria-label="Volkswagen">
+        <img data-img="logo" src="" alt="Volkswagen">
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Меню">&#9776;</button>
+      <nav class="main-nav" aria-label="Основное меню">
+        <div class="nav-item has-dropdown">
+          <a href="#">Модели</a>
+          <div class="nav-dropdown">
+            <a href="#">Polo</a><a href="#">Golf</a><a href="#">Passat</a><a href="#">Tiguan</a><a href="#">Touareg</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a href="#">Спецпредложения</a>
+          <div class="nav-dropdown">
+            <a href="#">Акции месяца</a><a href="#">Кредит 0%</a><a href="#">Trade-in</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a href="#">Volkswagen Finance</a>
+          <div class="nav-dropdown">
+            <a href="#">Кредит</a><a href="#">Лизинг</a><a href="#">Страхование</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a href="#">Сервис</a>
+          <div class="nav-dropdown">
+            <a href="#">ТО и ремонт</a><a href="#">Запчасти</a><a href="#">Замена масла</a><a href="#">Шиномонтаж</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a href="#">Авто с пробегом</a>
+          <div class="nav-dropdown">
+            <a href="#">Каталог</a><a href="#">Проверенные авто</a>
+          </div>
+        </div>
+        <div class="nav-item has-dropdown">
+          <a href="#">Мир Volkswagen</a>
+          <div class="nav-dropdown">
+            <a href="#">Новости</a><a href="#">О бренде</a><a href="#">Карьера</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <a href="#dealers" class="btn-outline" data-page="dealers">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>Дилеры</span>
+        </a>
+        <a href="#test-drive" class="btn-outline" data-page="test-drive">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          <span>Тест-драйв</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div id="page-home" class="page-view is-active">
+    <section class="hero" aria-label="Промо-слайдер">
+      <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide hero-slide">
+            <div class="hero-slide__visual"><img data-img="heroSlide1Visual" src="" alt="Volkswagen на сервисе"></div>
+            <div class="hero-slide__content">
+              <h2>Замена масла от 61 р. 08 к.! Доступное обслуживание Вашего Volkswagen</h2>
+              <a href="#" class="btn-cta">Перейти &#8594;</a>
+              <img class="hero-slide__illus" data-img="heroSlide1Illus" src="" alt="">
+              <div class="hero-badge"><span>Цены на сервис не кусаются!</span></div>
+            </div>
+          </div>
+          <div class="swiper-slide hero-slide">
+            <div class="hero-slide__visual"><img data-img="heroSlide2Visual" src="" alt="Новый Tiguan"></div>
+            <div class="hero-slide__content">
+              <h2>Новый Tiguan в Беларуси — познакомьтесь с обновлённым кроссовером</h2>
+              <a href="#" class="btn-cta">Узнать больше &#8594;</a>
+              <img class="hero-slide__illus" data-img="heroSlide2Illus" src="" alt="">
+            </div>
+          </div>
+          <div class="swiper-slide hero-slide">
+            <div class="hero-slide__visual"><img data-img="heroSlide3Visual" src="" alt="Спецпредложения"></div>
+            <div class="hero-slide__content">
+              <h2>Самые выгодные предложения Volkswagen — только этой весной</h2>
+              <a href="#" class="btn-cta">Смотреть акции &#8594;</a>
+              <img class="hero-slide__illus" data-img="heroSlide3Illus" src="" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-prev" aria-label="Предыдущий слайд"></div>
+        <div class="swiper-button-next" aria-label="Следующий слайд"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+    <section class="features" aria-label="Быстрые ссылки">
+      <div class="features__grid">
+        <a href="#" class="feature-tile feature-tile--solid">
+          <span class="feature-tile__icon">&#128295;</span>
+          <span class="feature-tile__title">Продленная гарантия</span>
+        </a>
+        <a href="#" class="feature-tile">
+          <span class="feature-tile__bg"><img data-img="feature2" src="" alt=""></span>
+          <span class="feature-tile__title">Самые выгодные предложения Volkswagen</span>
+        </a>
+        <a href="#test-drive" class="feature-tile" data-page="test-drive">
+          <span class="feature-tile__bg"><img data-img="feature3" src="" alt=""></span>
+          <span class="feature-tile__title">Бесплатный тест-драйв</span>
+        </a>
+        <a href="#" class="feature-tile">
+          <span class="feature-tile__bg"><img data-img="feature4" src="" alt=""></span>
+          <span class="feature-tile__title">Покупайте Volkswagen онлайн!</span>
+        </a>
+        <a href="#" class="feature-tile feature-tile--light">
+          <span class="feature-tile__icon">&#128269;</span>
+          <span class="feature-tile__title">Ищем «Тайных клиентов»!</span>
+        </a>
+      </div>
+    </section>
+    <section class="banners" aria-label="Разделы">
+      <div class="banners__grid">
+        <a href="#" class="banner-card">
+          <img class="banner-card__img" data-img="bannerCommercial" src="" alt="Коммерческие автомобили">
+          <div class="banner-card__overlay"><span class="banner-card__title">Коммерческие автомобили</span></div>
+        </a>
+        <a href="#" class="banner-card banner-card--service">
+          <img class="banner-card__img" data-img="bannerService" src="" alt="Фирменный сервис">
+          <div class="banner-card__overlay"><span class="banner-card__title">Фирменный сервис</span></div>
+        </a>
+        <a href="#" class="banner-card">
+          <img class="banner-card__img" data-img="bannerTiguan" src="" alt="Новый Tiguan">
+          <div class="banner-card__overlay"><span class="banner-card__title">Новый Tiguan в Беларуси</span></div>
+        </a>
+      </div>
+    </section>
+    <section id="contacts" class="page-content">
+      <h2>Контакты</h2>
+      <p>Телефон: +375 (17) 000-00-00 · Email: info@volkswagen.by</p>
+    </section>
+  </div>
+  <div id="page-dealers" class="page-view">
+    <section class="page-hero">
+      <h1>Дилеры Volkswagen</h1>
+      <p>Официальные дилерские центры в Беларуси. Выберите ближайший к вам.</p>
+    </section>
+    <div class="page-content">
+      <div class="dealers-grid">
+        <article class="dealer-card">
+          <div class="dealer-card__img-wrap"><img data-img="dealer1" src="" alt="Дилер Минск-Центр"></div>
+          <div class="dealer-card__body">
+            <h3>Минск — Центр</h3>
+            <p>ул. Примерная, 1</p>
+            <p>Пн–Сб: 9:00–20:00</p>
+            <a class="phone" href="tel:+375170000001">+375 (17) 000-00-01</a>
+          </div>
+        </article>
+        <article class="dealer-card">
+          <div class="dealer-card__img-wrap"><img data-img="dealer2" src="" alt="Дилер Минск-Север"></div>
+          <div class="dealer-card__body">
+            <h3>Минск — Север</h3>
+            <p>пр. Независимости, 100</p>
+            <p>Пн–Сб: 9:00–20:00</p>
+            <a class="phone" href="tel:+375170000002">+375 (17) 000-00-02</a>
+          </div>
+        </article>
+        <article class="dealer-card">
+          <div class="dealer-card__img-wrap"><img data-img="dealer3" src="" alt="Дилер Гомель"></div>
+          <div class="dealer-card__body">
+            <h3>Гомель</h3>
+            <p>ул. Советская, 25</p>
+            <p>Пн–Сб: 9:00–19:00</p>
+            <a class="phone" href="tel:+375230000003">+375 (23) 000-00-03</a>
+          </div>
+        </article>
+        <article class="dealer-card">
+          <div class="dealer-card__img-wrap"><img data-img="dealer4" src="" alt="Дилер Брест"></div>
+          <div class="dealer-card__body">
+            <h3>Брест</h3>
+            <p>ул. Машиностроителей, 8</p>
+            <p>Пн–Сб: 9:00–19:00</p>
+            <a class="phone" href="tel:+375160000004">+375 (16) 000-00-04</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div id="page-test-drive" class="page-view">
+    <section class="page-hero">
+      <h1>Запись на тест-драйв</h1>
+      <p>Бесплатно протестируйте модель Volkswagen у официального дилера.</p>
+    </section>
+    <div class="page-content">
+      <div class="form-section">
+        <div class="form-section__image">
+          <img data-img="testDriveForm" src="" alt="Тест-драйв Volkswagen">
+        </div>
+        <div>
+          <div id="form-success" class="form-success" role="status">Заявка отправлена! Мы свяжемся с вами в ближайшее время.</div>
+          <form id="test-drive-form" class="test-form">
+            <div><label for="name">Имя и фамилия *</label><input type="text" id="name" name="name" required autocomplete="name"></div>
+            <div><label for="phone">Телефон *</label><input type="tel" id="phone" name="phone" required placeholder="+375 (__) ___-__-__"></div>
+            <div><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email"></div>
+            <div>
+              <label for="model">Модель</label>
+              <select id="model" name="model">
+                <option value="">Выберите модель</option>
+                <option>Polo</option><option>Golf</option><option>Passat</option>
+                <option>Tiguan</option><option>Touareg</option><option>Arteon</option>
+              </select>
+            </div>
+            <div>
+              <label for="dealer-select">Дилерский центр</label>
+              <select id="dealer-select" name="dealer">
+                <option value="">Выберите дилера</option>
+                <option>Минск — Центр</option><option>Минск — Север</option>
+                <option>Гомель</option><option>Брест</option>
+              </select>
+            </div>
+            <div><label for="date">Желаемая дата</label><input type="date" id="date" name="date"></div>
+            <div><label for="comment">Комментарий</label><textarea id="comment" name="comment" placeholder="Удобное время, пожелания…"></textarea></div>
+            <button type="submit" class="btn-primary">Отправить заявку</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer" id="sitemap">
+    <p>&copy; Volkswagen. </p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+const SITE_IMAGES = {
+  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/120px-Volkswagen_logo_2019.svg.png",
+  heroSlide1Visual: "https://i.ytimg.com/vi/2tAmhhkolQg/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGGUgXyhUMA8=&amp;rs=AOn4CLAtP6Vnpkp2cj4-C3zYuTlPaTHeHQ",
+  heroSlide1Illus: "https://media.tenor.com/Q4F5lAZkMlcAAAAi/donuts-bart.gif",
+  heroSlide2Visual: "https://avatars.mds.yandex.net/get-autoru-vos/1595794/6b734b19bcd0c4e0dfe9f0d45e46f836/1200x900",
+  heroSlide2Illus: "https://media.tenor.com/0LGD2EZT3wIAAAAi/peter-griffin.gif",
+  heroSlide3Visual: "https://avatars.mds.yandex.net/get-autoru-vos/2022285/5c7f69af204482dc3ad85e6c477a5fe5/1200x900",
+  heroSlide3Illus: "https://media.tenor.com/z3Zoi6HIz1QAAAAi/el-gato-rockero.gif",
+  feature2: "https://avatars.mds.yandex.net/get-autoru-vos/2022285/5c7f69af204482dc3ad85e6c477a5fe5/1200x900",
+  feature3: "https://media1.tenor.com/m/35B0sw1fwtQAAAAd/mumblerat21-wrx-sti.gif",
+  feature4: "https://media1.tenor.com/m/OqVuw-vvOxAAAAAC/car-dreak.gif",
+  bannerCommercial: "https://media1.tenor.com/m/j1nzhbK_6WYAAAAd/carros.gif",
+  bannerService: "https://media1.tenor.com/m/JENEGSQiDxsAAAAC/funny-as-hell-car.gif",
+  bannerTiguan: "https://yandex-images.clstorage.net/5wuR2H150/55cc33Dad/Q9KP7gswfAmEt_AK9TRwg-Baygh0yxg4tXPjqAaX3_rHFFYBYQ6k5ZXs_kiw78w0JaHERZEPNBe1fD15lRFWyFbWyopmCHUczOK5J_gUTJehZqNMWeZJEMwLlpx7yzdXd5SKreGOVU1paNdxzbq5GES4weBRX52KqS34WcXApo3DdoovqkBE-egj7JIMAPyboX6eSIxjqGE997O55oeXn7eo0unBHs2dFRwDOUVyGW2U-CF8FHOtDm1BmNVRTBLJp6KKX45swM2YKzB6iISEF8nWuoRw70ABCW8_7fInA2tXUN7xjZL9za3AYyWxOn01WGzxeGh3hU6tZagBzdiOmdd6ch9iZBhxMM986iBc8L8Fwr7Y0AtEYaWPL03iM3ej64CGEQ16eWlhGLtBzfbxVXS8CbCIG-WONWFk0S1EDgnzvk4D4hw4SdCP_BIcKEAHOU4aCJz3wNVdR3-dco-PJ5fYolmR8iFFwfQbJZFm9fFo9Ak86PfpThHFtNkNnAJ53_LOpzK8aPXIqzACcJT4o4E6eoBc9xTtCQ__XXJTw-OTFMIZkZblmZ1wW63J6kW1GCTdlKhXFXZlaRQZNSjSyaeyGo-msGDxHKf4hhgUfAu17rJsrFPI6d0P6-3a14O7t1hq-QkiObUltLtVUSLlOVxQwTiwm53GpelkDZHkou231m7n6jDMHTBreGbQuOivOT46JPBXyJkl22ddUj_7G68YunnVyhVNKZznoaUOYWn4yMGUaMsV6uXFeJ2ppH6RsyJuty6QHPHE-xBmqCzAR51W-kBAz1xFJYdrsRIXi7NPvCLFOcpp8aUI191BDonVbGT1SLQ3-YZNbWQBGci2Yb_ajp-OBOztyMf40lgkjCcViu7ABLvEzd3PR312S3dzK_Tqgc363WkF7Ktx3Sb5TWD4jQDo0x3-tWk8pbVoul1LOvoDblgQXbhrTJokXHS_hcJqyJiDRHXZo-dtCjv0",
+  dealer1: "https://i.pinimg.com/originals/73/09/99/730999ee955e4912bc322a6938042b8f.jpg?nii=t",
+  dealer2: "https://media1.tenor.com/m/IRBANTJB1boAAAAd/excuse-me-sir-the-boys.gif",
+  dealer3: "https://media1.tenor.com/m/KRJLMOLqwIMAAAAd/homelander-theboys.gif",
+  dealer4: "https://media1.tenor.com/m/vowqIx4jgNoAAAAd/homelander-the-boys.gif",
+  testDriveForm: "https://i.ytimg.com/vi/FOYVtzLu1Ko/maxresdefault.jpg",
+};
+
+const PAGE_TITLES = {
+  home: "Volkswagen — Главная",
+  dealers: "Дилеры — Volkswagen",
+  "test-drive": "Тест-драйв — Volkswagen",
+};
+
+let heroSwiper = null;
+
+function applyImages() {
+  document.querySelectorAll("[data-img]").forEach((el) => {
+    const url = SITE_IMAGES[el.getAttribute("data-img")];
+    if (url && el.tagName === "IMG") {
+      el.src = url;
+      if (!el.alt) el.alt = "";
+    }
+  });
+}
+
+function showPage(id) {
+  const page = id === "dealers" || id === "test-drive" ? id : "home";
+  document.querySelectorAll(".page-view").forEach((el) => {
+    el.classList.toggle("is-active", el.id === "page-" + page);
+  });
+  document.title = PAGE_TITLES[page] || PAGE_TITLES.home;
+  document.querySelectorAll("[data-page]").forEach((el) => {
+    el.classList.toggle("is-active", el.getAttribute("data-page") === page);
+  });
+  if (page === "home" && heroSwiper) heroSwiper.update();
+  window.scrollTo(0, 0);
+}
+
+function initRouting() {
+  function route() {
+    let hash = location.hash.slice(1) || "home";
+    if (hash === "contacts" || hash === "sitemap") {
+      showPage("home");
+      requestAnimationFrame(() => {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+      return;
+    }
+    showPage(hash);
+  }
+  window.addEventListener("hashchange", route);
+  document.querySelectorAll("[data-page]").forEach((el) => {
+    el.addEventListener("click", () => {
+      location.hash = el.getAttribute("data-page");
+    });
+  });
+  route();
+}
+
+function initHeroSlider() {
+  if (typeof Swiper === "undefined") return;
+  heroSwiper = new Swiper(".hero-swiper", {
+    loop: true,
+    speed: 800,
+    autoplay: { delay: 6000, disableOnInteraction: false },
+    effect: "fade",
+    fadeEffect: { crossFade: true },
+    pagination: { el: ".hero-swiper .swiper-pagination", clickable: true },
+    navigation: {
+      nextEl: ".hero-swiper .swiper-button-next",
+      prevEl: ".hero-swiper .swiper-button-prev",
+    },
+  });
+}
+
+function initNav() {
+  const navItems = document.querySelectorAll(".nav-item.has-dropdown");
+  navItems.forEach((item) => {
+    const trigger = item.querySelector(":scope > a");
+    if (!trigger) return;
+    trigger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        item.classList.toggle("is-open");
+        navItems.forEach((o) => { if (o !== item) o.classList.remove("is-open"); });
+      }
+      if (e.key === "Escape") item.classList.remove("is-open");
+    });
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".nav-item.has-dropdown")) {
+      navItems.forEach((i) => i.classList.remove("is-open"));
+    }
+  });
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.querySelector(".main-nav");
+  if (toggle && nav) {
+    toggle.addEventListener("click", () => nav.classList.toggle("is-mobile-open"));
+    navItems.forEach((item) => {
+      item.querySelector(":scope > a")?.addEventListener("click", (e) => {
+        if (window.innerWidth <= 1024) {
+          e.preventDefault();
+          item.classList.toggle("is-open");
+        }
+      });
+    });
+  }
+}
+
+function initTestDriveForm() {
+  const form = document.getElementById("test-drive-form");
+  const success = document.getElementById("form-success");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (success) {
+      success.classList.add("is-visible");
+      form.reset();
+      success.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  });
+}
+
+function initSearch() {
+  const form = document.querySelector(".top-bar__search");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = form.querySelector("input")?.value?.trim();
+    if (q) alert("Поиск: «" + q + "» (демо)");
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  applyImages();
+  initRouting();
+  initHeroSlider();
+  initNav();
+  initTestDriveForm();
+  initSearch();
+});
+  </script>
+</body>
+</html>
